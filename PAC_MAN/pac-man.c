@@ -1,5 +1,5 @@
-// Контрольная работа. Вариант № 2.
-// «Пакмэн». Персонаж, управляемый игроком бегает по лабиринту и собирает призы, преследуемый оравой монстров.
+// РљРѕРЅС‚СЂРѕР»СЊРЅР°СЏ СЂР°Р±РѕС‚Р°. Р’Р°СЂРёР°РЅС‚ в„– 2.
+// В«РџР°РєРјСЌРЅВ». РџРµСЂСЃРѕРЅР°Р¶, СѓРїСЂР°РІР»СЏРµРјС‹Р№ РёРіСЂРѕРєРѕРј Р±РµРіР°РµС‚ РїРѕ Р»Р°Р±РёСЂРёРЅС‚Сѓ Рё СЃРѕР±РёСЂР°РµС‚ РїСЂРёР·С‹, РїСЂРµСЃР»РµРґСѓРµРјС‹Р№ РѕСЂР°РІРѕР№ РјРѕРЅСЃС‚СЂРѕРІ.
 
 #define  _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
@@ -7,14 +7,14 @@
 #include <windows.h>
 #include <time.h>
 #include <windows.graphics.h>
-//----------------------------------------------------НАВИГАЦИЯ-------------------------------------
+//----------------------------------------------------РќРђР’РР“РђР¦РРЇ-------------------------------------
 #define ESC 27
 #define ENTER 13
 #define UP 72
 #define DOWN 80
 #define LEFT 75
 #define RIGHT 77
-//------------------------------------------------------МЕНЮ----------------------------------------
+//------------------------------------------------------РњР•РќР®----------------------------------------
 #define MENU_SIZE 3
 char menu[MENU_SIZE][10] = { "NEW GAME","OPTIONS","EXIT" };
 #define MENU_X 100
@@ -22,12 +22,12 @@ char menu[MENU_SIZE][10] = { "NEW GAME","OPTIONS","EXIT" };
 #define MENU_NEW_GAME 0
 #define MENU_OPTIONS 1
 #define MENU_EXIT 2
-//---------------------------------------------------------ГЕРОЙ------------------------------------
+//---------------------------------------------------------Р“Р•Р РћР™------------------------------------
 #define HERO_WIDTH 7
 #define HERO_HEIGHT 7
 #define HERO_ACTION_COUNT 2
 #define HERO_SPRITES_COUNT 2
-//--------------------------------------------------------АРЕНА-------------------------------------
+//--------------------------------------------------------РђР Р•РќРђ-------------------------------------
 #define BORDER_UPPER 2
 #define BORDER_DOWN 62
 #define BORDER_LEFT 5
@@ -64,7 +64,7 @@ enum colors_enum
 	Orange = FOREGROUND_RED | FOREGROUND_GREEN,
 	Yellow = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY,
 };
-HANDLE hStdOut; // получение дискриптора консоли
+HANDLE hStdOut; // РїРѕР»СѓС‡РµРЅРёРµ РґРёСЃРєСЂРёРїС‚РѕСЂР° РєРѕРЅСЃРѕР»Рё
 void gotoxy(int x, int y)
 {
 	COORD c = { x, y };
@@ -91,9 +91,9 @@ int PacManLR[HERO_ACTION_COUNT][HERO_SPRITES_COUNT][HERO_HEIGHT][HERO_WIDTH] =
 	5,5,5,5,5,5,5,
 	5,5,5,5,5,5,5,
 	0,5,5,5,5,5,0,
-	0,0,5,5,5,0,0,// движение в
-				  // право
-	0,0,5,5,5,0,0,// "0" элемент
+	0,0,5,5,5,0,0,// РґРІРёР¶РµРЅРёРµ РІ
+				  // РїСЂР°РІРѕ
+	0,0,5,5,5,0,0,// "0" СЌР»РµРјРµРЅС‚
 	0,5,5,0,5,5,0,
 	5,5,5,5,5,0,0,
 	5,5,5,5,0,0,0,
@@ -109,9 +109,9 @@ int PacManLR[HERO_ACTION_COUNT][HERO_SPRITES_COUNT][HERO_HEIGHT][HERO_WIDTH] =
 	5,5,5,5,5,5,5,
 	5,5,5,5,5,5,5,
 	0,5,5,5,5,5,0,
-	0,0,5,5,5,0,0,// движение в
-				  // лево
-	0,0,5,5,5,0,0,// "1" элемент
+	0,0,5,5,5,0,0,// РґРІРёР¶РµРЅРёРµ РІ
+				  // Р»РµРІРѕ
+	0,0,5,5,5,0,0,// "1" СЌР»РµРјРµРЅС‚
 	0,5,5,0,5,5,0,
 	0,0,5,5,5,5,5,
 	0,0,0,5,5,5,5,
@@ -127,9 +127,9 @@ int PacManUD[HERO_ACTION_COUNT][HERO_SPRITES_COUNT][HERO_HEIGHT][HERO_WIDTH] =
 	5,5,5,5,5,5,5,
 	5,5,5,5,5,5,5,
 	0,5,5,5,5,5,0,
-	0,0,5,5,5,0,0,// движение 
-				  // вверх
-	0,0,0,0,0,0,0,// "0" элемент
+	0,0,5,5,5,0,0,// РґРІРёР¶РµРЅРёРµ 
+				  // РІРІРµСЂС…
+	0,0,0,0,0,0,0,// "0" СЌР»РµРјРµРЅС‚
 	0,5,0,0,0,5,0,
 	5,5,5,0,5,5,5,
 	5,5,5,5,5,0,5,
@@ -145,9 +145,9 @@ int PacManUD[HERO_ACTION_COUNT][HERO_SPRITES_COUNT][HERO_HEIGHT][HERO_WIDTH] =
 	5,5,5,5,5,5,5,
 	5,5,5,5,0,5,5,
 	0,5,5,5,5,5,0,
-	0,0,5,5,5,0,0,// движение 
-				  // вниз
-	0,0,5,5,5,0,0,// "1" элемент
+	0,0,5,5,5,0,0,// РґРІРёР¶РµРЅРёРµ 
+				  // РІРЅРёР·
+	0,0,5,5,5,0,0,// "1" СЌР»РµРјРµРЅС‚
 	0,5,5,5,5,5,0,
 	5,5,5,5,5,5,5,
 	5,5,5,5,5,0,5,
@@ -167,37 +167,37 @@ int Enemy[HERO_HEIGHT][HERO_WIDTH] =
 	0,5,0,5,0,5,0,
 };
 
-long X_POS_PM = 107;//---------ПОЗИЦИЯ
-long Y_POS_PM = 54;//---------ПАКМАНА
+long X_POS_PM = 107;//---------РџРћР—РР¦РРЇ
+long Y_POS_PM = 54;//---------РџРђРљРњРђРќРђ
 
-long X_POS_ENEMY = 150; //--------ПОЗИЦИЯ
-long Y_POS_ENEMY = 5; //--------ВРАГА
+long X_POS_ENEMY = 150; //--------РџРћР—РР¦РРЇ
+long Y_POS_ENEMY = 5; //--------Р’Р РђР“Рђ
 
-void DrawPacManLR(int direction, int mouth, int x, int y);// Отрисовка Пакмана для движения вправо и влево.
-void PacManRunRight(int x, int y, int hero_step);// Пакман движется вправо.
-void PacManRunLeft(int x, int y, int hero_step);// Пакман движется влево.
+void DrawPacManLR(int direction, int mouth, int x, int y);// РћС‚СЂРёСЃРѕРІРєР° РџР°РєРјР°РЅР° РґР»СЏ РґРІРёР¶РµРЅРёСЏ РІРїСЂР°РІРѕ Рё РІР»РµРІРѕ.
+void PacManRunRight(int x, int y, int hero_step);// РџР°РєРјР°РЅ РґРІРёР¶РµС‚СЃСЏ РІРїСЂР°РІРѕ.
+void PacManRunLeft(int x, int y, int hero_step);// РџР°РєРјР°РЅ РґРІРёР¶РµС‚СЃСЏ РІР»РµРІРѕ.
 
-void DrawPacManUD(int direction, int mouth, int x, int y);// Отрисовка Пакмана для движения вверх и вниз.
-void PacManRunUp(int x, int y, int hero_step);// Пакман движется вверх.
-void PacManRunDown(int x, int y, int hero_step);// Пакман движется вниз.
+void DrawPacManUD(int direction, int mouth, int x, int y);// РћС‚СЂРёСЃРѕРІРєР° РџР°РєРјР°РЅР° РґР»СЏ РґРІРёР¶РµРЅРёСЏ РІРІРµСЂС… Рё РІРЅРёР·.
+void PacManRunUp(int x, int y, int hero_step);// РџР°РєРјР°РЅ РґРІРёР¶РµС‚СЃСЏ РІРІРµСЂС….
+void PacManRunDown(int x, int y, int hero_step);// РџР°РєРјР°РЅ РґРІРёР¶РµС‚СЃСЏ РІРЅРёР·.
 
-void ErasePacMan(int x, int y);// Затирка персонажа.
+void ErasePacMan(int x, int y);// Р—Р°С‚РёСЂРєР° РїРµСЂСЃРѕРЅР°Р¶Р°.
 
-void DrawGameArea();// Отрисовка границ арены.
-void DrawAreaFilling();// Отрисовка внутренних стен арены.
-void DrawAreaPrise();// Наполнение арены призами.
+void DrawGameArea();// РћС‚СЂРёСЃРѕРІРєР° РіСЂР°РЅРёС† Р°СЂРµРЅС‹.
+void DrawAreaFilling();// РћС‚СЂРёСЃРѕРІРєР° РІРЅСѓС‚СЂРµРЅРЅРёС… СЃС‚РµРЅ Р°СЂРµРЅС‹.
+void DrawAreaPrise();// РќР°РїРѕР»РЅРµРЅРёРµ Р°СЂРµРЅС‹ РїСЂРёР·Р°РјРё.
 
-void DrawEnemy(int x, int y); // Отрисовка врага.
-void EnemyRunRight(int x, int y, int enemy_step); // Движение вправо. 
-void EnemyRunLeft(int x, int y, int enemy_step); // Движение влево.
-void EnemyRunUp(int x, int y, int enemy_step); // Движение вверх.
-void EnemyRunDown(int x, int y, int enemy_step); // Движение вниз.
-void EraseEnemy(int x, int y); // Затирка врага.
+void DrawEnemy(int x, int y); // РћС‚СЂРёСЃРѕРІРєР° РІСЂР°РіР°.
+void EnemyRunRight(int x, int y, int enemy_step); // Р”РІРёР¶РµРЅРёРµ РІРїСЂР°РІРѕ. 
+void EnemyRunLeft(int x, int y, int enemy_step); // Р”РІРёР¶РµРЅРёРµ РІР»РµРІРѕ.
+void EnemyRunUp(int x, int y, int enemy_step); // Р”РІРёР¶РµРЅРёРµ РІРІРµСЂС….
+void EnemyRunDown(int x, int y, int enemy_step); // Р”РІРёР¶РµРЅРёРµ РІРЅРёР·.
+void EraseEnemy(int x, int y); // Р—Р°С‚РёСЂРєР° РІСЂР°РіР°.
 
 void game();
 void showMenu(int pos);
 
-//------------------------------------------------------------------------------------------------------------------------ОТРИСОВКА ПЕРСОНАЖА ВЛЕВО/ВПРАВО-------------------
+//------------------------------------------------------------------------------------------------------------------------РћРўР РРЎРћР’РљРђ РџР•Р РЎРћРќРђР–Рђ Р’Р›Р•Р’Рћ/Р’РџР РђР’Рћ-------------------
 void DrawPacManLR(int direction, int mouth, int x, int y)
 {
 	int i, j;
@@ -214,16 +214,16 @@ void DrawPacManLR(int direction, int mouth, int x, int y)
 		}
 	}
 }
-//------------------------------------------------------------------------------------------------------------------------ДВИЖЕНИЕ ВПРАВО------------------------------------
+//------------------------------------------------------------------------------------------------------------------------Р”Р’РР–Р•РќРР• Р’РџР РђР’Рћ------------------------------------
 void PacManRunRight(int x, int y, int hero_step)
 {
 	int direction_R = 0;
-	static int mouthContr = 0;//рот
+	static int mouthContr = 0;//СЂРѕС‚
 	static int mouthPos;
 
 	ErasePacMan(x - hero_step, y + 1);
 
-	if (mouthContr % 15 <= 7) // Задержка закрывания/открывания рта
+	if (mouthContr % 15 <= 7) // Р—Р°РґРµСЂР¶РєР° Р·Р°РєСЂС‹РІР°РЅРёСЏ/РѕС‚РєСЂС‹РІР°РЅРёСЏ СЂС‚Р°
 	{
 		mouthPos = 1;
 	}
@@ -234,16 +234,16 @@ void PacManRunRight(int x, int y, int hero_step)
 	DrawPacManLR(direction_R, mouthPos, X_POS_PM, Y_POS_PM);
 	mouthContr++;
 }
-//------------------------------------------------------------------------------------------------------------------------ДВИЖЕНИЕ ВЛЕВО-------------------------------------
+//------------------------------------------------------------------------------------------------------------------------Р”Р’РР–Р•РќРР• Р’Р›Р•Р’Рћ-------------------------------------
 void PacManRunLeft(int x, int y, int hero_step)
 {
 	int direction_L = 1;
-	static int mouthContr = 0;//рот
+	static int mouthContr = 0;//СЂРѕС‚
 	static int mouthPos;
 
 	ErasePacMan(x + hero_step, y + 1);
 
-	if (mouthContr % 15 <= 7) // Задержка закрываеия/открывания рта.
+	if (mouthContr % 15 <= 7) // Р—Р°РґРµСЂР¶РєР° Р·Р°РєСЂС‹РІР°РµРёСЏ/РѕС‚РєСЂС‹РІР°РЅРёСЏ СЂС‚Р°.
 	{
 		mouthPos = 1;
 	}
@@ -256,7 +256,7 @@ void PacManRunLeft(int x, int y, int hero_step)
 	mouthContr++;
 }
 
-//------------------------------------------------------------------------------------------------------------------------ОТРИСОВКА ПЕРСОНАЖА ВВЕРХ/ВНИЗ---------------------
+//------------------------------------------------------------------------------------------------------------------------РћРўР РРЎРћР’РљРђ РџР•Р РЎРћРќРђР–Рђ Р’Р’Р•Р РҐ/Р’РќРР—---------------------
 void DrawPacManUD(int direction, int mouth, int x, int y)
 {
 	int i, j;
@@ -273,16 +273,16 @@ void DrawPacManUD(int direction, int mouth, int x, int y)
 		}
 	}
 }
-//------------------------------------------------------------------------------------------------------------------------ДВИЖЕНИЕ ВВЕРХ-------------------------------------
+//------------------------------------------------------------------------------------------------------------------------Р”Р’РР–Р•РќРР• Р’Р’Р•Р РҐ-------------------------------------
 void PacManRunUp(int x, int y, int hero_step)
 {
 	int direction_U = 0;
-	static int mouthContr = 0;//рот
+	static int mouthContr = 0;//СЂРѕС‚
 	static int mouthPos;
 
 	ErasePacMan(x + 1, y + hero_step);
 
-	if (mouthContr % 15 <= 7) // Задержка закрываеия/открывания рта
+	if (mouthContr % 15 <= 7) // Р—Р°РґРµСЂР¶РєР° Р·Р°РєСЂС‹РІР°РµРёСЏ/РѕС‚РєСЂС‹РІР°РЅРёСЏ СЂС‚Р°
 	{
 		mouthPos = 1;
 	}
@@ -294,16 +294,16 @@ void PacManRunUp(int x, int y, int hero_step)
 	DrawPacManUD(direction_U, mouthPos, X_POS_PM, Y_POS_PM);
 	mouthContr++;
 }
-//------------------------------------------------------------------------------------------------------------------------ДВИЖЕНИЕ ВНИЗ--------------------------------------
+//------------------------------------------------------------------------------------------------------------------------Р”Р’РР–Р•РќРР• Р’РќРР—--------------------------------------
 void PacManRunDown(int x, int y, int hero_step)
 {
 	int direction_D = 1;
-	static int mouthContr = 0;//рот
+	static int mouthContr = 0;//СЂРѕС‚
 	static int mouthPos;
 
 	ErasePacMan(x + 1, y - hero_step);
 
-	if (mouthContr % 15 <= 7) // Задержка закрываеия/открывания рта
+	if (mouthContr % 15 <= 7) // Р—Р°РґРµСЂР¶РєР° Р·Р°РєСЂС‹РІР°РµРёСЏ/РѕС‚РєСЂС‹РІР°РЅРёСЏ СЂС‚Р°
 	{
 		mouthPos = 1;
 	}
@@ -316,7 +316,7 @@ void PacManRunDown(int x, int y, int hero_step)
 	mouthContr++;
 }
 
-//------------------------------------------------------------------------------------------------------------------------СТИРАНИЕ ПЕРСОНАЖА---------------------------------
+//------------------------------------------------------------------------------------------------------------------------РЎРўРР РђРќРР• РџР•Р РЎРћРќРђР–Рђ---------------------------------
 void ErasePacMan(int x, int y)
 {
 	int i, j;
@@ -325,49 +325,49 @@ void ErasePacMan(int x, int y)
 	{
 		for (j = 0; j <= 7; j++)
 		{
-			gotoxy((x - 1) + j, (y - 1) + i);//пофиксил затирку вот так
+			gotoxy((x - 1) + j, (y - 1) + i);//РїРѕС„РёРєСЃРёР» Р·Р°С‚РёСЂРєСѓ РІРѕС‚ С‚Р°Рє
 			printf(" ");
 		}
 	}
 }
 
 
-//------------------------------------------------------------------------------------------------------------------------ИГРОВАЯ АРЕНА--------------------------------------
+//------------------------------------------------------------------------------------------------------------------------РР“Р РћР’РђРЇ РђР Р•РќРђ--------------------------------------
 void DrawGameArea()
 {
 	int u, l, r, d;
 
 	SetConsoleTextAttribute(hStdOut, (WORD)((Grey << 4) | Grey));
 
-	for (u = BORDER_LEFT; u < BORDER_RIGHT; u++)// верхняя граница
+	for (u = BORDER_LEFT; u < BORDER_RIGHT; u++)// РІРµСЂС…РЅСЏСЏ РіСЂР°РЅРёС†Р°
 	{
 		gotoxy(u, BORDER_UPPER);
 
 		printf("=");
 	}
 
-	for (d = BORDER_LEFT; d < BORDER_RIGHT; d++)// нижняя граница
+	for (d = BORDER_LEFT; d < BORDER_RIGHT; d++)// РЅРёР¶РЅСЏСЏ РіСЂР°РЅРёС†Р°
 	{
 		gotoxy(d, BORDER_DOWN);
 
 		printf("=");
 	}
 
-	for (l = BORDER_UPPER; l < BORDER_DOWN; l++)// левая граница
+	for (l = BORDER_UPPER; l < BORDER_DOWN; l++)// Р»РµРІР°СЏ РіСЂР°РЅРёС†Р°
 	{
 		gotoxy(BORDER_LEFT, l);
 
 		printf("=");
 	}
 
-	for (r = BORDER_UPPER; r <= BORDER_DOWN; r++) //правая граница
+	for (r = BORDER_UPPER; r <= BORDER_DOWN; r++) //РїСЂР°РІР°СЏ РіСЂР°РЅРёС†Р°
 	{
 		gotoxy(BORDER_RIGHT, r);
 
 		printf("=");
 	}
 }
-//------------------------------------------------------------------------------------------------------------------------СТЕНЫ ВНУТРИ АРЕНЫ---------------------------------
+//------------------------------------------------------------------------------------------------------------------------РЎРўР•РќР« Р’РќРЈРўР Р РђР Р•РќР«---------------------------------
 void DrawAreaFilling()
 {
 	int h1, h2, h3, h4;
@@ -375,14 +375,14 @@ void DrawAreaFilling()
 
 	SetConsoleTextAttribute(hStdOut, (WORD)((Blue << 4) | Blue));
 
-	for (h1 = BORDER_LEFT + 17; h1 < BORDER_RIGHT - 17; h1++)// внутренняя горизонтальная стена 1
+	for (h1 = BORDER_LEFT + 17; h1 < BORDER_RIGHT - 17; h1++)// РІРЅСѓС‚СЂРµРЅРЅСЏСЏ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ СЃС‚РµРЅР° 1
 	{
 		gotoxy(h1, HORISON_WALL_1);
 
 		printf("=");
 	}
 
-	for (h2 = BORDER_LEFT + 17; h2 < BORDER_RIGHT - 17; h2++)// внутренняя горизонтальная стена 2
+	for (h2 = BORDER_LEFT + 17; h2 < BORDER_RIGHT - 17; h2++)// РІРЅСѓС‚СЂРµРЅРЅСЏСЏ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ СЃС‚РµРЅР° 2
 	{
 		gotoxy(h2, HORISON_WALL_2);
 
@@ -390,14 +390,14 @@ void DrawAreaFilling()
 
 	}
 
-	for (h3 = BORDER_LEFT + 17; h3 < BORDER_RIGHT - 17; h3++)// внутренняя горизонтальная стена 3
+	for (h3 = BORDER_LEFT + 17; h3 < BORDER_RIGHT - 17; h3++)// РІРЅСѓС‚СЂРµРЅРЅСЏСЏ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ СЃС‚РµРЅР° 3
 	{
 		gotoxy(h3, HORISON_WALL_3);
 
 		printf("=");
 	}
 
-	for (h4 = BORDER_LEFT + 17; h4 < BORDER_RIGHT - 17; h4++)// внутренняя горизонтальная стена 4
+	for (h4 = BORDER_LEFT + 17; h4 < BORDER_RIGHT - 17; h4++)// РІРЅСѓС‚СЂРµРЅРЅСЏСЏ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ СЃС‚РµРЅР° 4
 	{
 		gotoxy(h4, HORISON_WALL_4);
 
@@ -405,56 +405,56 @@ void DrawAreaFilling()
 
 	}
 }
-//------------------------------------------------------------------------------------------------------------------------РАЗБРОС ПРИЗОВ-------------------------------------
+//------------------------------------------------------------------------------------------------------------------------Р РђР—Р‘Р РћРЎ РџР РР—РћР’-------------------------------------
 void DrawAreaPrise()
 {
 	int prise;
 
 	SetConsoleTextAttribute(hStdOut, (WORD)((Black << 4) | Yellow));
 
-	for (prise = BORDER_LEFT + 8; prise < BORDER_RIGHT - 8; prise += 4)// внутренняя горизонтальная стена 4
+	for (prise = BORDER_LEFT + 8; prise < BORDER_RIGHT - 8; prise += 4)// РІРЅСѓС‚СЂРµРЅРЅСЏСЏ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ СЃС‚РµРЅР° 4
 	{
 		gotoxy(prise, HORISON_WALL_1 - 6);
 
 		printf("@");
 	}
 
-	for (prise = BORDER_LEFT + 8; prise < BORDER_RIGHT - 8; prise += 4)// внутренняя горизонтальная стена 4
+	for (prise = BORDER_LEFT + 8; prise < BORDER_RIGHT - 8; prise += 4)// РІРЅСѓС‚СЂРµРЅРЅСЏСЏ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ СЃС‚РµРЅР° 4
 	{
 		gotoxy(prise, HORISON_WALL_2 - 6);
 
 		printf("@");
 	}
 
-	for (prise = BORDER_LEFT + 8; prise < BORDER_RIGHT - 8; prise += 4)// внутренняя горизонтальная стена 4
+	for (prise = BORDER_LEFT + 8; prise < BORDER_RIGHT - 8; prise += 4)// РІРЅСѓС‚СЂРµРЅРЅСЏСЏ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ СЃС‚РµРЅР° 4
 	{
 		gotoxy(prise, HORISON_WALL_3 - 6);
 
 		printf("@");
 	}
 
-	for (prise = BORDER_LEFT + 8; prise < BORDER_RIGHT - 8; prise += 4)// внутренняя горизонтальная стена 4
+	for (prise = BORDER_LEFT + 8; prise < BORDER_RIGHT - 8; prise += 4)// РІРЅСѓС‚СЂРµРЅРЅСЏСЏ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ СЃС‚РµРЅР° 4
 	{
 		gotoxy(prise, HORISON_WALL_4 - 6);
 
 		printf("@");
 	}
 
-	for (prise = BORDER_LEFT + 8; prise < BORDER_RIGHT - 8; prise += 4)// внутренняя горизонтальная стена 4
+	for (prise = BORDER_LEFT + 8; prise < BORDER_RIGHT - 8; prise += 4)// РІРЅСѓС‚СЂРµРЅРЅСЏСЏ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ СЃС‚РµРЅР° 4
 	{
 		gotoxy(prise, HORISON_WALL_4 + 6);
 
 		printf("@");
 	}
 
-	for (prise = BORDER_UPPER + 8; prise < BORDER_DOWN - 6; prise += 2)// внутренняя горизонтальная стена 4
+	for (prise = BORDER_UPPER + 8; prise < BORDER_DOWN - 6; prise += 2)// РІРЅСѓС‚СЂРµРЅРЅСЏСЏ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ СЃС‚РµРЅР° 4
 	{
 		gotoxy(BORDER_LEFT + 8, prise);
 
 		printf("@");
 	}
 
-	for (prise = BORDER_UPPER + 6; prise < BORDER_DOWN - 4; prise += 2)// внутренняя горизонтальная стена 4
+	for (prise = BORDER_UPPER + 6; prise < BORDER_DOWN - 4; prise += 2)// РІРЅСѓС‚СЂРµРЅРЅСЏСЏ РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ СЃС‚РµРЅР° 4
 	{
 		gotoxy(BORDER_RIGHT - 6, prise);
 
@@ -463,7 +463,7 @@ void DrawAreaPrise()
 }
 
 
-//------------------------------------------------------------------------------------------------------------------------ОТРИСОВКА ВРАГА------------------------------------
+//------------------------------------------------------------------------------------------------------------------------РћРўР РРЎРћР’РљРђ Р’Р РђР“Рђ------------------------------------
 void DrawEnemy(int x, int y)
 {
 	int i, j;
@@ -481,32 +481,32 @@ void DrawEnemy(int x, int y)
 	}
 }
 
-//------------------------------------------------------------------------------------------------------------------------ДВИЖЕНИЕ ВПРАВО------------------------------------
+//------------------------------------------------------------------------------------------------------------------------Р”Р’РР–Р•РќРР• Р’РџР РђР’Рћ------------------------------------
 void EnemyRunRight(int x, int y, int enemy_step)
 {
 	EraseEnemy(x - enemy_step, y + 1);
 	DrawEnemy(X_POS_ENEMY, Y_POS_ENEMY);
 }
-//------------------------------------------------------------------------------------------------------------------------ДВИЖЕНИЕ ВЛЕВО-------------------------------------
+//------------------------------------------------------------------------------------------------------------------------Р”Р’РР–Р•РќРР• Р’Р›Р•Р’Рћ-------------------------------------
 void EnemyRunLeft(int x, int y, int enemy_step)
 {
 	EraseEnemy(x + enemy_step, y + 1);
 	DrawEnemy(X_POS_ENEMY, Y_POS_ENEMY);
 }
-//------------------------------------------------------------------------------------------------------------------------ДВИЖЕНИЕ ВВЕРХ-------------------------------------
+//------------------------------------------------------------------------------------------------------------------------Р”Р’РР–Р•РќРР• Р’Р’Р•Р РҐ-------------------------------------
 void EnemyRunUp(int x, int y, int enemy_step)
 {
 	EraseEnemy(x + 1, y + enemy_step);
 	DrawEnemy(X_POS_ENEMY, Y_POS_ENEMY);
 }
-//------------------------------------------------------------------------------------------------------------------------ДВИЖЕНИЕ ВНИЗ--------------------------------------
+//------------------------------------------------------------------------------------------------------------------------Р”Р’РР–Р•РќРР• Р’РќРР—--------------------------------------
 void EnemyRunDown(int x, int y, int enemy_step)
 {
 	EraseEnemy(x + 1, y - enemy_step);
 	DrawEnemy(X_POS_ENEMY, Y_POS_ENEMY);
 }
 
-//------------------------------------------------------------------------------------------------------------------------ЗАТИРКА ВРАГА--------------------------------------
+//------------------------------------------------------------------------------------------------------------------------Р—РђРўРР РљРђ Р’Р РђР“Рђ--------------------------------------
 void EraseEnemy(int x, int y)
 {
 	int i, j;
@@ -515,7 +515,7 @@ void EraseEnemy(int x, int y)
 	{
 		for (j = 0; j <= 7; j++)
 		{
-			gotoxy((x - 1) + (j + 1), (y - 1) + i);//пофиксил затирку вот так
+			gotoxy((x - 1) + (j + 1), (y - 1) + i);//РїРѕС„РёРєСЃРёР» Р·Р°С‚РёСЂРєСѓ РІРѕС‚ С‚Р°Рє
 			printf(" ");
 		}
 	}
@@ -553,7 +553,7 @@ void game()
 	DrawEnemy(X_POS_ENEMY, Y_POS_ENEMY);
 	DrawPacManLR(0, 0, X_POS_PM, Y_POS_PM);
 
-	while (isExit == 0 && (X_POS_ENEMY != X_POS_PM || (Y_POS_PM - Y_POS_ENEMY) >= 3 && (Y_POS_PM - Y_POS_ENEMY) >= -3 || ((Y_POS_ENEMY - Y_POS_PM) >= 3 && (Y_POS_ENEMY - Y_POS_PM) >= -3))) // условие проигрыша
+	while (isExit == 0 && (X_POS_ENEMY != X_POS_PM || (Y_POS_PM - Y_POS_ENEMY) >= 3 && (Y_POS_PM - Y_POS_ENEMY) >= -3 || ((Y_POS_ENEMY - Y_POS_PM) >= 3 && (Y_POS_ENEMY - Y_POS_PM) >= -3))) // СѓСЃР»РѕРІРёРµ РїСЂРѕРёРіСЂС‹С€Р°
 	{
 		if (X_POS_ENEMY == (BORDER_LEFT + 3) && (Y_POS_ENEMY == (HORISON_WALL_1 - 9)))
 		{
@@ -634,7 +634,7 @@ void game()
 			}
 		}
 
-		//------------------------------------------------------------ПРАВАЯ СТОРОНА---------------------------------------
+		//------------------------------------------------------------РџР РђР’РђРЇ РЎРўРћР РћРќРђ---------------------------------------
 
 		if (X_POS_ENEMY == (BORDER_RIGHT - 8) && (Y_POS_ENEMY == (HORISON_WALL_1 - 9)))
 		{
@@ -719,8 +719,8 @@ void game()
 
 		switch (enemStep)
 		{
-		case ENEM_LEFT://влево
-			if ((X_POS_ENEMY > (BORDER_LEFT + 3) && (Y_POS_ENEMY < (HORISON_WALL_1 - 8))     // Условие обхода внутренних стен.
+		case ENEM_LEFT://РІР»РµРІРѕ
+			if ((X_POS_ENEMY > (BORDER_LEFT + 3) && (Y_POS_ENEMY < (HORISON_WALL_1 - 8))     // РЈСЃР»РѕРІРёРµ РѕР±С…РѕРґР° РІРЅСѓС‚СЂРµРЅРЅРёС… СЃС‚РµРЅ.
 				|| X_POS_ENEMY > (BORDER_LEFT + 3) && (Y_POS_ENEMY > (HORISON_WALL_1 + 1)))
 
 				&& (X_POS_ENEMY > (BORDER_LEFT + 3) && (Y_POS_ENEMY < (HORISON_WALL_2 - 8))
@@ -738,8 +738,8 @@ void game()
 			}
 			break;
 
-		case ENEM_RIGHT://вправо
-			if ((X_POS_ENEMY < (BORDER_RIGHT - 8) && (Y_POS_ENEMY < (HORISON_WALL_1 - 8))     // Условие обхода внутренних стен.
+		case ENEM_RIGHT://РІРїСЂР°РІРѕ
+			if ((X_POS_ENEMY < (BORDER_RIGHT - 8) && (Y_POS_ENEMY < (HORISON_WALL_1 - 8))     // РЈСЃР»РѕРІРёРµ РѕР±С…РѕРґР° РІРЅСѓС‚СЂРµРЅРЅРёС… СЃС‚РµРЅ.
 				|| X_POS_ENEMY < (BORDER_RIGHT - 8) && (Y_POS_ENEMY > (HORISON_WALL_1 + 1)))
 
 				&& (X_POS_ENEMY < (BORDER_RIGHT - 8) && (Y_POS_ENEMY < (HORISON_WALL_2 - 8))
@@ -758,8 +758,8 @@ void game()
 			}
 			break;
 
-		case ENEM_UP://вверх
-			if (Y_POS_ENEMY > (BORDER_UPPER + 3) && (X_POS_ENEMY < (BORDER_LEFT + 10))        // Условие для непрохода через горизонтальные стены
+		case ENEM_UP://РІРІРµСЂС…
+			if (Y_POS_ENEMY > (BORDER_UPPER + 3) && (X_POS_ENEMY < (BORDER_LEFT + 10))        // РЈСЃР»РѕРІРёРµ РґР»СЏ РЅРµРїСЂРѕС…РѕРґР° С‡РµСЂРµР· РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅС‹Рµ СЃС‚РµРЅС‹
 				|| (Y_POS_ENEMY > (BORDER_UPPER + 3) && (X_POS_ENEMY > (BORDER_RIGHT - 15))))
 			{
 				EraseEnemy(X_POS_ENEMY, Y_POS_ENEMY);
@@ -768,8 +768,8 @@ void game()
 			}
 			break;
 
-		case ENEM_DOWN://вниз
-			if (Y_POS_ENEMY < (BORDER_DOWN - 8) && (X_POS_ENEMY < (BORDER_LEFT + 10))         // Условие для непрохода через горизонтальные стены
+		case ENEM_DOWN://РІРЅРёР·
+			if (Y_POS_ENEMY < (BORDER_DOWN - 8) && (X_POS_ENEMY < (BORDER_LEFT + 10))         // РЈСЃР»РѕРІРёРµ РґР»СЏ РЅРµРїСЂРѕС…РѕРґР° С‡РµСЂРµР· РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅС‹Рµ СЃС‚РµРЅС‹
 				|| (Y_POS_ENEMY < (BORDER_DOWN - 8) && (X_POS_ENEMY > (BORDER_RIGHT - 15))))
 			{
 				EraseEnemy(X_POS_ENEMY, Y_POS_ENEMY);
@@ -781,16 +781,16 @@ void game()
 
 
 		ticks = GetTickCount();
-		while (GetTickCount() - ticks < 20)//придерживает выполнение следующего блока
+		while (GetTickCount() - ticks < 20)//РїСЂРёРґРµСЂР¶РёРІР°РµС‚ РІС‹РїРѕР»РЅРµРЅРёРµ СЃР»РµРґСѓСЋС‰РµРіРѕ Р±Р»РѕРєР°
 		{
-			if (_kbhit())   // навигация Пакманом
+			if (_kbhit())   // РЅР°РІРёРіР°С†РёСЏ РџР°РєРјР°РЅРѕРј
 			{
 				stick = _getch();
 
 				switch (stick)
 				{
 				case LEFT:
-					if ((X_POS_PM > (BORDER_LEFT + 3) && (Y_POS_PM < (HORISON_WALL_1 - 8))     // Условие обхода внутренних стен.
+					if ((X_POS_PM > (BORDER_LEFT + 3) && (Y_POS_PM < (HORISON_WALL_1 - 8))     // РЈСЃР»РѕРІРёРµ РѕР±С…РѕРґР° РІРЅСѓС‚СЂРµРЅРЅРёС… СЃС‚РµРЅ.
 						|| X_POS_PM > (BORDER_LEFT + 3) && (Y_POS_PM > (HORISON_WALL_1 + 1)))
 
 						&& (X_POS_PM > (BORDER_LEFT + 3) && (Y_POS_PM < (HORISON_WALL_2 - 8))
@@ -809,7 +809,7 @@ void game()
 					break;
 
 				case RIGHT:
-					if ((X_POS_PM < (BORDER_RIGHT - 8) && (Y_POS_PM < (HORISON_WALL_1 - 8))     // Условие обхода внутренних стен.
+					if ((X_POS_PM < (BORDER_RIGHT - 8) && (Y_POS_PM < (HORISON_WALL_1 - 8))     // РЈСЃР»РѕРІРёРµ РѕР±С…РѕРґР° РІРЅСѓС‚СЂРµРЅРЅРёС… СЃС‚РµРЅ.
 						|| X_POS_PM < (BORDER_RIGHT - 8) && (Y_POS_PM > (HORISON_WALL_1 + 1)))
 
 						&& (X_POS_PM < (BORDER_RIGHT - 8) && (Y_POS_PM < (HORISON_WALL_2 - 8))
@@ -829,7 +829,7 @@ void game()
 					break;
 
 				case UP:
-					if (Y_POS_PM > (BORDER_UPPER + 3) && (X_POS_PM < (BORDER_LEFT + 10))        // Условие для непрохода через горизонтальные стены
+					if (Y_POS_PM > (BORDER_UPPER + 3) && (X_POS_PM < (BORDER_LEFT + 10))        // РЈСЃР»РѕРІРёРµ РґР»СЏ РЅРµРїСЂРѕС…РѕРґР° С‡РµСЂРµР· РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅС‹Рµ СЃС‚РµРЅС‹
 						|| (Y_POS_PM > (BORDER_UPPER + 3) && (X_POS_PM > (BORDER_RIGHT - 15))))
 					{
 						ErasePacMan(X_POS_PM, Y_POS_PM);
@@ -839,7 +839,7 @@ void game()
 					break;
 
 				case DOWN:
-					if (Y_POS_PM < (BORDER_DOWN - 8) && (X_POS_PM < (BORDER_LEFT + 8))         // Условие для непрохода через горизонтальные стены
+					if (Y_POS_PM < (BORDER_DOWN - 8) && (X_POS_PM < (BORDER_LEFT + 8))         // РЈСЃР»РѕРІРёРµ РґР»СЏ РЅРµРїСЂРѕС…РѕРґР° С‡РµСЂРµР· РіРѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅС‹Рµ СЃС‚РµРЅС‹
 						|| (Y_POS_PM < (BORDER_DOWN - 8) && (X_POS_PM > (BORDER_RIGHT - 15))))
 					{
 						ErasePacMan(X_POS_PM, Y_POS_PM);
